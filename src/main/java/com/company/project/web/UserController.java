@@ -10,20 +10,20 @@ import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by CodeGenerator on 2019/10/25.
  */
+
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 public class UserController {
     @Resource
     private UserService userService;
 
     @ApiOperation(value = "添加用户", notes = "添加用户")
-    @RequestMapping(value = "", method = RequestMethod.GET)
-//    @PostMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result add(User user) {
         userService.save(user);
         return ResultGenerator.genSuccessResult();
@@ -41,13 +41,17 @@ public class UserController {
         return ResultGenerator.genSuccessResult();
     }
 
-    @PostMapping("/detail")
+//    @PostMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    @RequestMapping(value = "/detail", method = RequestMethod.POST)
     public Result detail(@RequestParam Integer id) {
         User user = userService.findById(id);
         return ResultGenerator.genSuccessResult(user);
     }
 
-    @PostMapping("/list")
+//    @PostMapping("/list")
+    @ApiOperation(value = "列表", notes = "列表")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
         List<User> list = userService.findAll();
